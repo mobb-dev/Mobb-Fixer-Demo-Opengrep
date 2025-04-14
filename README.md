@@ -5,14 +5,7 @@
 Mobb Fixer monitors your pull requests for security issues and produces accurate code fix suggestions on the spot.
 
 > [!IMPORTANT]  
-> For the workflow to run you must first:  
->
-> 1. [Enable GitHub Actions](/../../actions) on this repo.  
-> 2. Define the following secrets in the [repo's secrets page](/../../settings/secrets/actions):  
->    - `SONAR_TOKEN`: Your SonarCloud or SonarQube token ([guide](https://docs.sonarsource.com/sonarqube-cloud/advanced-setup/ci-based-analysis/github-actions-for-sonarcloud/))  
->    - `SONAR_HOST_URL`: Your Sonar instance URL (e.g., `https://sonarcloud.io`)  
->    - `SONAR_PROJECT_KEY`: Your project's key as defined in Sonar (see how to get it [here](https://docs.sonarsource.com/sonarqube-cloud/advanced-setup/analysis-parameters/) )
->    - `SONAR_ORGANIZATION`: Your SonarCloud organization key (see how to get it [here](https://docs.sonarsource.com/sonarqube-cloud/advanced-setup/analysis-parameters/), or use `none` for on-prem)  
+> For the workflow to run you must [enable GitHub Actions](/../../actions) on this repo.  
 
 Then, click below to see how automatic fixes on pull requests work:
 
@@ -20,7 +13,7 @@ Then, click below to see how automatic fixes on pull requests work:
 
 This will let you start a pull request from branch `introduce-new-security-issue` to branch `main`.
 
-Once the PR is created, **SonarQube** will automatically start a security scan and report vulnerabilities.
+Once the PR is created, **Semgrep CLI** will automatically start a security scan and report vulnerabilities.
 
 **Mobb Fixer** will immediately run and present a fix suggestion in the PR conversation tab.
 

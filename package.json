@@ -1,7 +1,7 @@
 {
-  "name": "mobb-fixer-demo-sonarqube",
+  "name": "mobb-fixer-demo-semgrep",
   "version": "1.0.0",
-  "description": "Demo app with DOM XSS vulnerability for SonarQube and Mobb fixer testing",
+  "description": "Demo app with deliberate vulnerabilities",
   "scripts": {
     "build": "tsc"
   },

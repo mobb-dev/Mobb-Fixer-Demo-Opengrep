@@ -1,0 +1,56 @@
+# Mobb/Opengrep Fixer on pull requests
+# This workflow defines the needed steps to run Opengrep on every pull request and pass the results to Mobb Fixer.
+#
+# Secrets in use (add your missing ones):
+# MOBB_API_TOKEN - your mobb user credentials (automatically set if you forked this repo via the Mobb app)
+
+name: "Mobb/Semgrep from PR"
+
+on:
+  pull_request:
+    branches: ["*"]
+
+jobs:
+  scan-and-fix:
+    name: Scan with Opengrep and fix with Mobb
+    runs-on: 'ubuntu-latest'
+    timeout-minutes: 360
+    permissions:
+      contents: read
+      pull-requests: write
+      statuses: write
+      security-events: write
+      
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Download Opengrep
+        uses: robinraju/release-downloader@v1.11
+        with:
+          repository: opengrep/opengrep
+          latest: true
+          fileName: opengrep_manylinux_x86
+
+      - name: Run full Opengrep SAST scan
+        run: |
+          chmod +x opengrep_manylinux_x86
+          {
+            ./opengrep_manylinux_x86 scan \
+            --sarif \
+            --sarif-output opengrep_report.sarif \
+            --metrics=auto \
+            --config auto $GITHUB_WORKSPACE
+            exit 0
+          }
+          
+        shell: bash -l {0}
+
+      - name: Run Mobb on the findings and get fixes
+        if: always()
+        uses: mobb-dev/action/review@v1.1
+        with:
+          report-file: "opengrep_report.sarif"
+          api-key: ${{ secrets.MOBB_API_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          scanner: semgrep

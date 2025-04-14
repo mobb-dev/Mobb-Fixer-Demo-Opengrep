@@ -26,12 +26,10 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Install and Run Semgrep CLI
-        env:
-           SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
         run: |
           pip install semgrep
-          semgrep login
-          semgrep ci --sarif --output semgrep_report.sarif
+          # semgrep login
+          semgrep scan --sarif --output semgrep_report.sarif
       
      
       - name: Run Mobb on the findings and get fixes
